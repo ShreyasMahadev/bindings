@@ -1,0 +1,45 @@
+[package]
+name = "buildproject4"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+libc = "0.2" 
+#cc = "^0.2" 
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.3"
+cortex-m-semihosting = "0.5.0"
+panic-halt = "0.2.0"
+embedded-hal = "0.2.7"
+rtt-target = "0.4.0"
+cty = "0.2.2"
+defmt = "0.3.2"
+defmt-rtt = "0.4.0"
+panic-probe = { version = "0.3.0", features = ["print-defmt"] }
+
+[dependencies.stm32g4xx-hal]
+version = "0.0.1"
+features = ["stm32g431"]
+
+[dependencies.stm32g4]
+version = "0.15.1"
+features = ["stm32g431"]
+
+[features]
+default = ["rt"]
+rt = ["stm32g4/rt"]
+stm32g431 = ["stm32g4/stm32g431"]
+
+[build-dependencies]
+bindgen = "0.68.1"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+codegen-units = 1 # better optimizations
+debug = true # symbols are nice and they don't increase the size on Flash
+lto = true # better optimizations withing dependecy crates
+panic = "abort"
