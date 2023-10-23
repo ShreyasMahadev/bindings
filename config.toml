@@ -1,0 +1,19 @@
+[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+
+# Change this runner as required for your MCU.
+runner = "probe-run --chip STM32G431CBUx" # to list chips, run `probe-run --list-chips.`
+
+[build]
+target = "thumbv7em-none-eabihf"
+
+
+
+rustflags = [  
+    # "-C", "target-cpu=cortex-m4", 
+    "-C", "link-arg=-Tlink.x", 
+    "-C", "link-arg=-Tdefmt.x",
+    "-C", "target-feature=+v7,+mclass,+dsp,+thumb2",  
+    "-C", "link-arg=--gc-sections",    
+    "-C", "opt-level=z",
+    "-C", "debuginfo=2",
+]
